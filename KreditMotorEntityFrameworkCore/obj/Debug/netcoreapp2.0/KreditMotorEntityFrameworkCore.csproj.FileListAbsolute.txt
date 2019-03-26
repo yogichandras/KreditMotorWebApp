@@ -1,0 +1,12 @@
+E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorEntityFrameworkCore\bin\Debug\netcoreapp2.0\KreditMotorEntityFrameworkCore.deps.json
+E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorEntityFrameworkCore\bin\Debug\netcoreapp2.0\KreditMotorEntityFrameworkCore.dll
+E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorEntityFrameworkCore\bin\Debug\netcoreapp2.0\KreditMotorEntityFrameworkCore.pdb
+E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorEntityFrameworkCore\bin\Debug\netcoreapp2.0\KreditMotorDomain.dll
+E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorEntityFrameworkCore\bin\Debug\netcoreapp2.0\KreditMotorDomain.pdb
+E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorEntityFrameworkCore\obj\Debug\netcoreapp2.0\KreditMotorEntityFrameworkCore.csprojAssemblyReference.cache
+E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorEntityFrameworkCore\obj\Debug\netcoreapp2.0\KreditMotorEntityFrameworkCore.csproj.CoreCompileInputs.cache
+E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorEntityFrameworkCore\obj\Debug\netcoreapp2.0\KreditMotorEntityFrameworkCore.AssemblyInfoInputs.cache
+E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorEntityFrameworkCore\obj\Debug\netcoreapp2.0\KreditMotorEntityFrameworkCore.AssemblyInfo.cs
+E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorEntityFrameworkCore\obj\Debug\netcoreapp2.0\KreditMotorEntityFrameworkCore.csproj.CopyComplete
+E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorEntityFrameworkCore\obj\Debug\netcoreapp2.0\KreditMotorEntityFrameworkCore.dll
+E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorEntityFrameworkCore\obj\Debug\netcoreapp2.0\KreditMotorEntityFrameworkCore.pdb
