@@ -1,0 +1,123 @@
+﻿@model KreditMotorDomain.Model.Motor.ViewModelMotor
+
+@{
+    ViewData["Title"] = "Motor";
+
+}
+
+@Html.Partial("_modal")
+
+<div class="main-content">
+    <section class="section">
+        <div class="section-header">
+            <h1>Data Motor</h1>
+            <div class="section-header-breadcrumb">
+                @{
+                    if (User.IsInRole("admin")) { 
+                    <a class="btn btn-primary" asp-controller="Motor" asp-action="Create">Create Motor</a>
+                    }
+                    }
+            </div>
+        </div>
+
+        <div class="section-body">
+
+            @{
+                if (ViewBag.message == "success")
+                {
+                    <div class="alert alert-success">
+                        Edit Data Motor Berhasil!
+                    </div>
+                }
+                else if (ViewBag.message == "success_insert")
+                {
+                    <div class="alert alert-success">
+                        Tambah Data Motor Berhasil!
+                    </div>
+                }
+            }
+            <div class="row">
+                @{
+                    foreach (var item in Model.motor)
+                    {
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h4>@item.merk</h4>
+                                </div>
+                                <div class="card-body">
+                                    <a href="javascript:;">
+                                        <img src="~/image_motor/@item.picture" class="img-thumbnail" style="height:145px;width:200px" />
+                                    </a>
+                                    <label class="control-label" style="margin-top:10px">Tipe : <strong> @item.type</strong></label>
+                                    <label class="control-label">Harga : <strong>Rp.@item.harga</strong></label>
+                                </div>
+                                <div class="card-footer text-right" style="border-top:1px solid #f9f9f9">
+                                    @{
+                                        if (User.IsInRole("admin"))
+                                        {
+                                            <a class="btn btn-warning" asp-controller="Motor" asp-action="Edit" asp-route-id="@item.kd_motor">Edit</a>
+
+                                            <a class="btn btn-danger item-delete-motor" href="javascript:;" data-id="@item.kd_motor">Delete</a>
+                                        }
+                                    }
+                                    <a class="btn btn-primary" asp-controller="Motor" asp-action="Book" asp-route-id="@item.kd_motor">Book</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                <div class="image-zoom">
+                    <img src='' style="width:100%" />
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+</div>
+<script>
+
+    $(function () {
+        $('.card-body a').click(function () {
+            $('.image-zoom img').attr('src', $(this).find('img').attr('src'));
+            $('.image-zoom').show();
+            $('.product-wrapper').css('display', 'none');
+            return false;
+        });
+
+        $('.image-zoom').mousemove(function (e) {
+            var h = $(this).find('img').height();
+            var vptHeight = $(document).height();
+            var y = -((h - vptHeight) / vptHeight) * e.pageY;
+
+            $('div img').css('top', y + "px");
+        });
+
+        $('.image-zoom').click(function () {
+            $('.image-zoom').hide();
+            $('.product-wrapper').css('display', 'block');
+        });
+    });
+
+  
+        $('.item-delete-motor').click(function () {
+            let id = $(this).attr('data-id');
+            $("#delId").val(id);
+            $("#deleteModal").modal('show');
+    });
+
+    $('#btn-delete').click(function () {
+        var id = $('#delId').val();
+        fetch('/Motor/deleteMotor?id=' + id + '', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+            .then(window.location.href = '/Motor')
+            .catch(error => console.error('Error:', error));
+    });
+   
+</script>

@@ -1,6 +1,0 @@
-E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorDomain\bin\Debug\netcoreapp2.2\KreditMotorDomain.deps.json
-E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorDomain\bin\Debug\netcoreapp2.2\KreditMotorDomain.dll
-E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorDomain\obj\Debug\netcoreapp2.2\KreditMotorDomain.csprojAssemblyReference.cache
-E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorDomain\obj\Debug\netcoreapp2.2\KreditMotorDomain.csproj.CoreCompileInputs.cache
-E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorDomain\obj\Debug\netcoreapp2.2\KreditMotorDomain.AssemblyInfoInputs.cache
-E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorDomain\obj\Debug\netcoreapp2.2\KreditMotorDomain.AssemblyInfo.cs

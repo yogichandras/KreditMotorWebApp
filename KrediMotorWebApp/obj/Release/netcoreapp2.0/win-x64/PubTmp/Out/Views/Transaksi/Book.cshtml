@@ -1,0 +1,116 @@
+﻿@model KreditMotorDomain.Model.Transaksi.ViewTransaksiModel
+
+@{
+    ViewData["Title"] = "Data Book";
+
+}
+
+<div class="main-content">
+    <section class="section">
+        <div class="section-header">
+            <h1>Data Book</h1>
+           
+        </div>
+
+        <div class="section-body">
+
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="table-1">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-left">
+                                                NO KREDIT
+                                            </th>
+
+                                            <th>Motor</th>
+                                            <th>Pelanggan</th>
+                                            <th>Tenor</th>
+                                            <th>Status Verif</th>
+                                            @{ 
+                                                if(User.IsInRole("admin") || User.IsInRole("cso") || User.IsInRole("kasir")) {
+                                                <th>Action</th>
+                                                }
+                                            }
+                                        </tr>
+                                    </thead>
+                                    <tbody id="content">
+                                        @{
+                                            foreach (var item in Model.transaksi)
+                                            {
+                                        <tr>
+                                            <td>
+                                                @item.no_kredit
+                                            </td>
+                                            <td>
+                                                @item.modelMotor.merk
+                                            </td>
+                                            <td>
+                                                @item.modelPelanggan.nama_pelanggan
+                                            </td>
+                                            <td>
+                                                @item.tenor
+                                            </td>
+                                            <td>
+                                                @{
+                                                    if (item.status_verif == 1)
+                                                    {
+                                                        <div class="badge badge-success">Verifikasi Diterima</div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="badge badge-danger">Verifikasi Ditolak</div>
+                                                    }
+                                                }
+                                            </td>
+                                            @{ if (User.IsInRole("admin") || (User.IsInRole("cso")) || User.IsInRole("kasir"))
+                                                {
+                                                    <td>
+                                                        @{
+                                                            if (item.status_verif == 0)
+                                                            {
+                                                                <form method="post" asp-action="Verif">
+                                                                    <input type="hidden" name="no_kredit" value="@item.no_kredit" />
+                                                                    <button type="submit" class="btn btn-primary">Verif</button>
+                                                                </form>
+                                                            }
+                                                            else
+                                                            {
+                                                                <form method="post" asp-action="DontVerif" style="margin-bottom:5px">
+                                                                    <input type="hidden" name="no_kredit" value="@item.no_kredit" />
+                                                                    <button type="submit" class="btn btn-danger">Batalkan</button>
+                                                                </form>
+                                                                <a asp-controller="Transaksi" asp-action="Perjanjian" asp-route-id="@item.no_kredit" target="_blank" class="btn btn-warning">Print Perjanjian</a>
+                                                            }
+                                                        }
+                                                    </td>
+
+                                                }
+                                            }
+
+                                        </tr>
+
+
+
+                                                            }
+                                                        }
+                                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>
+
+<script>
+    $('#table-1').dataTable();
+</script>

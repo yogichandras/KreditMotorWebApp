@@ -1,0 +1,38 @@
+﻿<div id="app">
+    <div class="main-wrapper main-wrapper-1">
+        <div class="navbar-bg"></div>
+        <nav class="navbar navbar-expand-lg main-navbar">
+            <form class="form-inline mr-auto">
+                <ul class="navbar-nav mr-3">
+                    <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
+                    <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i class="fas fa-search"></i></a></li>
+                </ul>
+             
+            </form>
+            <ul class="navbar-nav navbar-right">
+               
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                        <img alt="image" src="~/assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+                        <div class="d-sm-none d-lg-inline-block">Hi, @User.Identity.Name</div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <form asp-area="" asp-controller="Account" asp-action="Logout" method="post">
+                            <a asp-controller="Manage" asp-action="ChangePassword" class="dropdown-item has-icon">
+                                <i class="fas fa-user-cog"></i> Change Password
+                            </a>
+                            @{
+                                if (User.IsInRole("admin")) { 
+                                <a asp-controller="Site" asp-action="Index" class="dropdown-item has-icon">
+                                    <i class="fas fa-cog"></i> Site Setting
+                                </a>
+                                }
+                            }
+                            <div class="dropdown-divider"></div>
+                            <button type="submit" class="dropdown-item has-icon text-danger"><i class="fas fa-sign-out-alt" style="margin-top:7px"></i> <span>Log out</span></button>
+
+                        </form> 
+                   </div>
+                </li>
+            </ul>
+        </nav>

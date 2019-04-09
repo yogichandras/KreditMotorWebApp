@@ -1,0 +1,114 @@
+﻿
+@{
+    ViewData["Title"] = "Site Setting";
+
+}
+
+@Html.Partial("_modal")
+
+<div class="main-content">
+    <section class="section">
+        <div class="section-header">
+            <h1>Site Setting</h1>
+            
+        </div>
+
+        <div class="section-body">
+
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="table-1">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-left">
+                                                #
+                                            </th>
+
+                                            <th>Setting Dp</th>
+                                            <th>Setting Bunga</th>
+                                            <th>Setting Denda</th>
+                                            <th>Setting Biaya Administrasi</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody id="content"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>
+<script>
+    fetch('/Site/getSite').then(
+        function (response) {
+            return response.json();
+
+        }
+    ).then(function (jsonData) {
+
+        //handle json data processing here
+        let x = 1;
+        let content = '';
+        
+        content += '<tr><td>' + x + '</td><td>' + parseFloat(jsonData.dp_setting) * 100 + '%</td><td>' + parseFloat(jsonData.bunga_setting) * 100 + '%</td><td>' + parseFloat(jsonData.denda_setting) * 100 + '%</td><td>' + jsonData.surat_surat_setting + '</td><td><button class="btn btn-warning item-edit" data-id="' + jsonData.id_setting + '" data-dp="' + jsonData.dp_setting + '"  data-bunga="' + jsonData.bunga_setting + '"  data-denda="' + jsonData.denda_setting + '" data-surat="' + jsonData.surat_surat_setting + '" style="margin-right:10px">Edit</button></td></tr>';
+        $('#content').html(content);
+        $("#table-1").dataTable();
+        editSetting();
+        });
+    function editSetting() {
+
+        $('.item-edit').click(function () {
+            let id = $(this).attr('data-id');
+            let dp = $(this).attr('data-dp');
+            let surat = $(this).attr('data-surat');
+            let bunga = $(this).attr('data-bunga');
+            let denda = $(this).attr('data-denda');
+            $('#id_setting').val(id);
+            $('#dp_setting').val(parseFloat(dp)*100);
+            $('#bunga_setting').val(parseFloat(bunga)*100);
+            $('#denda_setting').val(parseFloat(denda)*100);
+            $('#surat_surat_setting').val(surat);
+            $('#editModal').modal('show');
+
+        });
+    }
+
+    $('#btn-kirim-edit').click(function () {
+        let id = $('#id_setting').val();
+        let dp_setting = $('#dp_setting').val();
+        let surat_surat_setting = $('#surat_surat_setting').val();
+        let bunga_setting = $('#bunga_setting').val();
+        let denda_setting = $('#denda_setting').val();
+      
+        let parseData = {
+           
+            id_setting: parseInt(id),
+            dp_setting: parseFloat(dp_setting) / 100,
+            bunga_setting: parseFloat(bunga_setting) / 100,
+            denda_setting: parseFloat(denda_setting) / 100,
+            surat_surat_setting: parseFloat(surat_surat_setting)
+            }
+
+
+        fetch('/Site/editDataSite', {
+            method: 'POST',
+            body: JSON.stringify(parseData),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+            .then(response => location.reload())
+            .catch(error => console.error('Error:', error));
+    }
+    );
+</script>

@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewData["Title"] = "Laporan";
+
+}
+
+@Html.Partial("_modal")
+
+<div class="main-content">
+    <section class="section">
+        <div class="section-header">
+            <h1>Laporan</h1>
+           
+        </div>
+
+        <div class="section-body">
+
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="table-1">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-left">
+                                                #
+                                            </th>
+
+                                            <th>Laporan</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="content">
+                                        <tr>
+                                            <td>1</td>
+
+                                            <td>
+                                                Laporan Cicilan Pelanggan
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-warning" type="button" data-toggle="modal" data-target="#laporanModal">Print</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>
+<script>
+    $("#table-1").dataTable();
+
+</script>

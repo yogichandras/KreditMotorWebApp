@@ -1,17 +1,31 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using KreditMotorDomain.Model.Petugas;
+using KreditMotorDomain.Model.User;
+using KreditMotorEntityFrameworkCore;
+using KreditMotorService.Interface.Laporan;
+using KreditMotorService.Interface.Motor;
+using KreditMotorService.Interface.Pelanggan;
+using KreditMotorService.Interface.Pembayaran;
+using KreditMotorService.Interface.Site;
+using KreditMotorService.Interface.StoredProcedure;
+using KreditMotorService.Interface.Transaksi;
+using KreditMotorService.Interface.User;
+using KreditMotorService.Service.Laporan;
+using KreditMotorService.Service.Motor;
+using KreditMotorService.Service.Pelanggan;
+using KreditMotorService.Service.Pembayaran;
+using KreditMotorService.Service.Site;
+using KreditMotorService.Service.StoredProcedure;
+using KreditMotorService.Service.Transaksi;
+using KreditMotorService.Service.User;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using KrediMotorWebApp.Services;
-using KreditMotorEntityFrameworkCore;
-using KreditMotorDomain.Model.User;
-using KreditMotorDomain.Service;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
-using KreditMotorService.Interface.User;
-using KreditMotorService.Service.User;
 
 namespace KrediMotorWebApp
 {
@@ -47,11 +61,9 @@ namespace KrediMotorWebApp
 
                 // Lockout settings
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
-                options.Lockout.MaxFailedAccessAttempts = 10;
-                options.Lockout.AllowedForNewUsers = true;
 
                 // User settings
-                options.User.RequireUniqueEmail = true;
+                options.User.RequireUniqueEmail = false;
             });
 
             //Setting the Account Login page
@@ -73,8 +85,15 @@ namespace KrediMotorWebApp
 
 
             // Add application services.
-            services.AddTransient<IEmailSender, EmailSender>();
+          
             services.AddScoped<IUserService,UserService>();
+            services.AddScoped<IPelangganService,PelangganService>();
+            services.AddScoped<IMotorService,MotorService>();
+            services.AddScoped<ISiteService,SiteService>();
+            services.AddScoped<ITransaksiService,TransaksiService>();
+            services.AddScoped<IPembayaranService,PembayaranService>();
+            services.AddScoped<ILaporanService,LaporanService>();
+            services.AddScoped<IBookProcedureService,BookProcedureService>();
 
             services.AddMvc();
         }
@@ -90,7 +109,7 @@ namespace KrediMotorWebApp
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error/Index");
             }
 
             app.UseStaticFiles();
@@ -101,7 +120,7 @@ namespace KrediMotorWebApp
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Account}/{action=Index}/{returnUrl?}");
             });
 
             CreateUserRoles(services).Wait();
@@ -112,35 +131,48 @@ namespace KrediMotorWebApp
         {
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            var PetugasManager = serviceProvider.GetRequiredService<DataContext>();
 
-            IdentityResult roleResult;
             //Adding Admin Role
-            var roleCheck = await RoleManager.RoleExistsAsync("Admin");
-            if (!roleCheck)
+            var roleCheck = PetugasManager.Roles.Where(x => x.Name.ToLower() == "admin" && x.Name.ToLower() == "cso" && x.Name.ToLower() == "kasir" && x.Name.ToLower() == "sales").ToList();
+            if (roleCheck.Count == 0)
             {
                 //create the roles and seed them to the database
-                roleResult = await RoleManager.CreateAsync(new IdentityRole("Admin"));
+               await RoleManager.CreateAsync(new IdentityRole("admin"));
+               await RoleManager.CreateAsync(new IdentityRole("cso"));
+               await RoleManager.CreateAsync(new IdentityRole("kasir"));
+               await RoleManager.CreateAsync(new IdentityRole("sales"));
             }
 
-            var userCheck = await UserManager.FindByEmailAsync("admin@kredit.com");
+            var userCheck = await PetugasManager.users.FirstOrDefaultAsync(x => x.UserName.ToLower() == "admin");
             if (userCheck == null)
             {
+                var petugas = new ModelPetugas
+                {
+                    nama = "admin",
+                    bagian = "admin",
+                    keterangan = "admin"
+                };
+                var createPetugas = PetugasManager.petugas.Add(petugas);
+                PetugasManager.SaveChanges();
+                
+
                 var User = new ApplicationUser
                 {
-                    Email = "admin@kredit.com",
-                    UserName = "admin@kredit.com",                    
+                    UserName = "admin",
+                    kd_petugas = petugas.kd_petugas
                 };
                 var password = "fsociety";
                 var createUser = await UserManager.CreateAsync(User,password);
                 if (createUser.Succeeded)
                 {
-                    userCheck = await UserManager.FindByEmailAsync("admin@kredit.com");
+                    userCheck = await PetugasManager.users.FirstOrDefaultAsync(x => x.UserName.ToLower() == "admin");
                 }
             }
             //Assign Admin role to the main User here we have given our newly registered 
             //login id for Admin management
             
-            await UserManager.AddToRoleAsync(userCheck, "Admin");
+            await UserManager.AddToRoleAsync(userCheck, "admin");
         }
     }
 }

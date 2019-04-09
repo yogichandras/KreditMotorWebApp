@@ -1,0 +1,81 @@
+﻿@model KreditMotorDomain.Model.Motor.ViewModelMotor
+
+@{
+    ViewData["Title"] = "Motor";
+
+}
+
+
+<div class="main-content">
+    <section class="section">
+        <div class="section-header">
+            <h1>Create Motor</h1>
+            <div class="section-header-breadcrumb">
+                <a asp-controller="Motor" asp-action="Index" class="btn btn-primary">Back</a>
+            </div>
+        </div>
+
+        <div class="section-body">
+
+
+            <div class="row">
+                <div class="col-12 col-md-12 col-lg-12">
+                    <div class="card card-primary">
+                        <form method="post" asp-action="Create" enctype="multipart/form-data">
+                            <div class="card-body">
+                                <div class="col-4" style="padding-top:20px">
+                                    @{
+                                        if (ViewBag.message == "success")
+                                        {
+                                    <div class="alert alert-success">
+                                        Tambah Data Motor Berhasil!
+                                    </div>
+                                        }
+                                        else if(ViewBag.message == "failed")
+                                        {
+                                    <div class="alert alert-danger">
+                                        Tambah Data Motor Gagal!
+                                    </div>
+                                        }
+                                    }
+                                    <div asp-validation-summary="All"></div>
+                                    <div class="form-group">
+                                        <label>Merk Motor</label>
+                                        <input type="text" class="form-control" asp-for="createMotor.merk" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Tipe Motor</label>
+                                        <input type="text" class="form-control" asp-for="createMotor.type" required />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Harga Motor</label>
+                                        <input type="text" class="form-control" asp-for="createMotor.harga" required />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Picture</label>
+                                        <input type="file" class="form-control" name="picture" id="picture" required />
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                            <div class="card-footer text-right" style="border-top:1px solid #f9f9f9">
+
+                                <button type="submit" class="btn btn-primary">Create</button>
+                            </div>
+                        </form>
+                    </div>
+                    </div>
+                    </div>
+
+                </div>
+</section>
+</div>
+<script>
+    $('#createMotor_harga').inputFilter(function (value) {
+        return /^\d*$/.test(value);
+    });
+</script>

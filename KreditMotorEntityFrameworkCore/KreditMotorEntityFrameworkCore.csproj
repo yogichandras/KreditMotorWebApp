@@ -5,7 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.0.1" />
+    <Compile Remove="Migrations\20190401143926_remove unnecessary field.cs" />
+    <Compile Remove="Migrations\20190401144359_remove unnecessary field.cs" />
+    <Compile Remove="Migrations\20190401150813_remove indexing.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>

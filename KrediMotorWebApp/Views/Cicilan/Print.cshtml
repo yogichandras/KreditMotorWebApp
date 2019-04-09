@@ -1,0 +1,174 @@
+﻿@model KreditMotorDomain.Model.Pembayaran.Cicilan.ModelPembayaranCicilan
+@using System;
+@using System.Globalization;
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Print</title>
+    <link rel="stylesheet" href="~/assets/modules/bootstrap/css/bootstrap.min.css">
+    <style>
+        @@media print {
+            @@page {
+                margin: 0;
+            }
+
+            body {
+                margin: 1.6cm;
+            }
+
+            .printpage {
+                display: inline
+            }
+            #back{
+                display:none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="col-12">
+        <div class="container" style="background-color: white;">
+            <div class="header" style="text-align:right">
+                <small>
+                    PT. GEOMO <br>
+                    Gestire Credio Moto <br>
+                    Jalan Golf Raya <br>
+                    yogi@sahaware.co.id <br>
+                    0895389566001
+                </small>
+            </div>
+            <br>
+            <h3 class="mt-2" style="text-align: center;">BUKTI SETORAN ANGSURAN</h3>
+            <h7 class="mt-5">Tanggal Setor	: @DateTime.Now.ToString("dd/MM/yyyy")</h7>
+            <div class="row mt-3">
+                <div class="col-6">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="width:50%">NOMOR KREDIT</th>
+                                <th>@Model.modelTransaksiKredit.no_kredit</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td>Nama</td>
+                                <td colspan="10">@Model.modelTransaksiKredit.modelPelanggan.nama_pelanggan</td>
+                            </tr>
+                            <tr>
+                                <td>Alamat</td>
+                                <td colspan="10">@Model.modelTransaksiKredit.modelPelanggan.alamat</td>
+                            </tr>
+                            <tr>
+                                <td>Tenor</td>
+                                <td colspan="10">@Model.modelTransaksiKredit.tenor</td>
+                            </tr>
+                            <tr>
+                                <td>Sisa Cicilan</td>
+                                <td colspan="10">@Model.sisa_cicilan</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-6">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="width:50%">NOMOR PEMBAYARAN</th>
+                                <th>@Model.no_bayar</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Tagihan Bulan Ke</td>
+                                <td colspan="10">@Model.bulan_bayar</td>
+                            </tr>
+                            <tr>
+                                <td>Nominal Cicilan</td>
+                                <td colspan="10">@Model.modelTransaksiKredit.cicilan.ToString("C", CultureInfo.CurrentCulture)</td>
+                            </tr>
+                            <tr>
+                                <td>Denda</td>
+                                <td colspan="10">@Model.denda.ToString("C", CultureInfo.CurrentCulture)</td>
+                            </tr>
+                            <tr>
+                                <td>Total</td>
+                                <td colspan="10">@Model.nominal_bayar.ToString("C", CultureInfo.CurrentCulture)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <style>
+                .cos-perhatian {
+                    font-size: 12px;
+                    margin-bottom: 1px;
+                }
+
+                    .cos-perhatian label {
+                        margin-bottom: 1px;
+                    }
+
+                .cos-tanda {
+                    font-size: 14px;
+                    margin-bottom: 1px;
+                }
+
+                    .cos-tanda .label {
+                        font-size: 11px;
+                    }
+
+                .tanda-2 {
+                    margin-left: 30px;
+                }
+            </style>
+
+            <div class="col-12">
+                <div class="row">
+
+                    <div class="col-6">
+                        <div class="cos-perhatian">
+                            <h6> PERHAITAN</h6>
+                            <label> - PEMBAYARAN SAH APABILA ADA CAP</label>
+                            <br>
+                            <label> - TULISKAN NOMOR BAYARAN DAN JUMLAH CICILAN</label>
+                            <br>
+                            <label> - SIMPAN BUKTI PEMBAYARAN UNTUK PEMBARAYAN STNK DAN PENGAMBILAN BPKB</label>
+                        </div>
+                    </div>
+
+                    <div class="col-6" style="padding:0px 0px 0px 280px">
+                        <div class="cos-tanda">
+                            <label> &nbsp;&nbsp;&nbsp; PETUGAS PENERIMA</label>
+                            <br>
+                            <br>
+                            <br>
+                            <label>.........................................................</label>
+                            <br>
+                        
+                        </div>
+                    </div>
+
+                    <a id="back" asp-controller="Cicilan" asp-action="Index" class="btn btn-primary">Back</a> 
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
+<script>
+    window.print();
+</script>

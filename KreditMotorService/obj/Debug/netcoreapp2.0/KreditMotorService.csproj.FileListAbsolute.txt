@@ -1,4 +1,6 @@
 E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorService\bin\Debug\netcoreapp2.0\KreditMotorService.deps.json
+E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorService\bin\Debug\netcoreapp2.0\KreditMotorService.runtimeconfig.json
+E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorService\bin\Debug\netcoreapp2.0\KreditMotorService.runtimeconfig.dev.json
 E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorService\bin\Debug\netcoreapp2.0\KreditMotorService.dll
 E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorService\bin\Debug\netcoreapp2.0\KreditMotorService.pdb
 E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorService\bin\Debug\netcoreapp2.0\KreditMotorDomain.dll

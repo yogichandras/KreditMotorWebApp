@@ -1,0 +1,196 @@
+﻿@model KreditMotorDomain.Model.Motor.ViewModelMotor
+@using System;
+@using System.Globalization;
+
+@{
+    ViewData["Title"] = "Motor";
+    var prevDisabled = !Model.pagingMotor.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.pagingMotor.HasNextPage ? "disabled" : "";
+}
+
+@Html.Partial("_modal")
+
+<div class="main-content">
+    <section class="section">
+        <div class="section-header">
+            <h1>Data Motor</h1>
+            <div class="section-header-breadcrumb">
+                @{
+                    if (User.IsInRole("admin"))
+                    {
+                        <a class="btn btn-primary" asp-controller="Motor" asp-action="Create">Create Motor</a>
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="section-body" style="margin-bottom:80px">
+
+            @{
+                if (ViewBag.message == "success")
+                {
+                    <div class="alert alert-success">
+                        Edit Data Motor Berhasil!
+                    </div>
+                }
+                else if (ViewBag.message == "success_insert")
+                {
+                    <div class="alert alert-success">
+                        Tambah Data Motor Berhasil!
+                    </div>
+                }
+            }
+            <div class="search-element" style="margin-bottom:20px">
+                <form asp-action="Index" method="get">
+                    <input class="form-control" type="search" placeholder="Search Merk,Type,Harga" aria-label="Search" data-width="250" style="width: 250px;display:inline" name="search" id="search">
+                    <button class="btn" type="submit" style="background: none;
+    position: absolute;
+    left: 210px;
+    margin-top: 5px;">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+            <div class="row">
+                @{
+                    foreach (var item in Model.pagingMotor)
+                    {
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h4>@item.merk</h4>
+                                </div>
+                                <div class="card-body">
+                                    <a href="javascript:;">
+                                        <img src="~/image_motor/@item.picture" class="img-thumbnail" style="height:145px;width:200px" />
+                                    </a>
+                                    <label class="control-label" style="margin-top:10px">Tipe : <strong> @item.type</strong></label>
+                                    <label class="control-label">Harga : <strong>@item.harga.ToString("C2", CultureInfo.CurrentCulture)</strong></label>
+                                </div>
+                                <div class="card-footer text-right" style="border-top:1px solid #f9f9f9">
+                                    @{
+                                        if (User.IsInRole("admin"))
+                                        {
+                                            <a class="btn btn-warning" asp-controller="Motor" asp-action="Edit" asp-route-id="@item.kd_motor">Edit</a>
+
+                                            <a class="btn btn-danger item-delete-motor" href="javascript:;" data-id="@item.kd_motor">Delete</a>
+                                        }
+                                    }
+                                    <a class="btn btn-primary" asp-controller="Motor" asp-action="Book" asp-route-id="@item.kd_motor">Book</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                <div class="image-zoom">
+                    <img src='' style="width:100%" />
+                </div>
+
+
+            </div>
+            <div class="row" style="margin-bottom:20px">
+                <div class="col-12 text-center">
+                    <nav aria-label="Page navigation example">
+                        @{
+                            if (Model.pagingMotor.TotalPages > 0)
+                            {
+
+                                <ul class="pagination" style="position:absolute;left:430px;">
+                                    <li class="page-item">
+                                        <a asp-action="Index"
+                                           asp-route-page="@(Model.pagingMotor.PageIndex - 1)"
+                                           asp-route-search="@ViewBag.search"
+                                           class="btn btn-primary @prevDisabled" style="height: 32px;border-radius: 0px">
+                                            Sebelumnya
+                                        </a>
+                                    </li>
+
+                                    @{
+                                        var jumlah = Model.pagingMotor.TotalPages;
+                                        for (int i = 0; i < jumlah; i++)
+                                        {
+                                            var x = i + 1;
+                                            <li class="page-item @(ViewBag.paging == x?"active":"") ">
+                                                <a class="page-link" asp-action="Index"
+                                                   asp-route-page="@x"
+                                                   asp-route-search="@ViewBag.search">@x</a>
+                                            </li>
+                                        }
+                                    }
+
+                                    <li class="page-item">
+                                        <a asp-action="Index"
+                                           asp-route-page="@(Model.pagingMotor.PageIndex + 1)"
+                                           asp-route-search="@ViewBag.search"
+                                           class="btn btn-primary @nextDisabled" style="height: 32px;border-radius: 0px">
+                                            Berikutnya
+                                        </a>
+                                    </li>
+                                </ul>
+
+                            }
+                            else if (Model.pagingMotor.TotalPages < 1 && ViewBag.search != null)
+                            {
+                                <blockquote>No Data Found similiar with : '@ViewBag.search'</blockquote>
+                            }
+                            else
+                            {
+                                <blockquote>No Data Found</blockquote>
+                            }
+
+                        }
+                    </nav>
+
+
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+</div>
+<script>
+
+    $(function () {
+        $('.card-body a').click(function () {
+            $('.image-zoom img').attr('src', $(this).find('img').attr('src'));
+            $('.image-zoom').show();
+            $('.product-wrapper').css('display', 'none');
+            return false;
+        });
+
+        $('.image-zoom').mousemove(function (e) {
+            var h = $(this).find('img').height();
+            var vptHeight = $(document).height();
+            var y = -((h - vptHeight) / vptHeight) * e.pageY;
+
+            $('div img').css('top', y + "px");
+        });
+
+        $('.image-zoom').click(function () {
+            $('.image-zoom').hide();
+            $('.product-wrapper').css('display', 'block');
+        });
+    });
+
+
+    $('.item-delete-motor').click(function () {
+        let id = $(this).attr('data-id');
+        $("#delId").val(id);
+        $("#deleteModal").modal('show');
+    });
+
+    $('#btn-delete').click(function () {
+        var id = $('#delId').val();
+        fetch('/Motor/deleteMotor?id=' + id + '', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+            .then(window.location.href = '/Motor')
+            .catch(error => console.error('Error:', error));
+    });
+
+</script>

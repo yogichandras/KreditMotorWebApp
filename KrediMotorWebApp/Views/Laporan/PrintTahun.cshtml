@@ -1,0 +1,113 @@
+﻿@model KreditMotorDomain.Model.Pembayaran.Cicilan.PrintLaporan
+@using System;
+@using System.Globalization;
+
+@{
+    Layout = null;
+    var total = 0;
+
+    
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Print</title>
+    <link rel="stylesheet" href="~/assets/modules/bootstrap/css/bootstrap.min.css">
+    <style>
+        @@media print {
+            @@page {
+                margin: 0;
+            }
+
+            body {
+                margin: 1.6cm;
+            }
+
+            .printpage {
+                display: inline
+            }
+
+            .btn-back {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+    <h2 style="text-align:center">Laporan Simulasi Cicilan</h2>
+
+    <div class="container">
+        @*<p>No Kredit</p>
+            <p>Nama Pelanggan</p>
+            <p>Motor</p>
+            <p>Tenor</p>*@
+        <table>
+            <thead>
+                <tr>
+                    <th style="width:200px">
+                        Tahun
+                    </th>
+                    <th>
+                        :
+                    </th>
+                    <th>
+
+                        @Model.laporan.First().tgl_bayar.Year
+                    </th>
+                </tr>
+
+            </thead>
+        </table>
+        <p style="margin-top:20px">Rincian Detail Rekap Uang :</p>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>No Kredit</th>
+
+                    <th>Nominal</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var item in Model.laporan)
+                    {
+                    <tr>
+                        <td>
+                            @item.no_kredit
+                        </td>
+                        <td>
+                            @item.nominal_bayar.ToString("C2", CultureInfo.CurrentCulture)
+                        </td>
+
+                    </tr>
+
+                        total += item.nominal_bayar;
+                    }
+
+                }
+                <tr>
+                    <td>
+                        Total Keseluruhan
+                    </td>
+                    <td>
+                        @total.ToString("C2", CultureInfo.CurrentCulture)
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <a asp-controller="Laporan" asp-action="Index" class="btn btn-primary btn-back">Back</a>
+    </div>
+    <script>
+        window.print();
+    </script>
+</body>
+</html>

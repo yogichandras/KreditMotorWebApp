@@ -1,0 +1,259 @@
+﻿
+<div class="modal fade"
+ role="dialog" id="laporanModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Laporan Cicilan Pelanggan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" asp-action="Print">
+
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Pilih No Kredit</label>
+                        <select class="form-control" required id="selectKredit" style="width:100%" name="no_kredit">
+                            <option value="">--- Pilih No Kredit ---</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer bg-whitesmoke br">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade"
+     role="dialog" id="simulasiModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Laporan Simulasi Kredit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" asp-action="PrintSimulasi">
+
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Pilih No Kredit</label>
+                        <select class="form-control" required id="selectKreditSimulasi" style="width:100%" name="no_kredit">
+                            <option value="">--- Pilih No Kredit ---</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer bg-whitesmoke br">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade"
+     role="dialog" id="tanggalModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Laporan Rekap Uang Harian / perTanggal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" asp-action="PrintHarian">
+
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Pilih Tanggal</label>
+                        <input type="date" class="form-control" required name="tgl" />
+                    </div>
+                </div>
+                <div class="modal-footer bg-whitesmoke br">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade"
+     role="dialog" id="bulanModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Laporan Rekap Uang perBulan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" asp-action="PrintBulan">
+
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Pilih Bulan</label>
+                        <select class="form-control" required id="selectKreditBulan" style="width:100%" name="bln">
+                            <option value="">--- Pilih Bulan ---</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer bg-whitesmoke br">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade"
+     role="dialog" id="tahunModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Laporan Rekap Uang perTahun</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" asp-action="PrintTahun">
+
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Pilih Tahun</label>
+                        <select class="form-control" required id="selectKreditTahun" style="width:100%" name="thn">
+                            <option value="">--- Pilih Tahun ---</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer bg-whitesmoke br">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<script src="~/lib/jquery-date-format/jquery-dateformat.js"></script>
+<script>
+      fetch('/Laporan/getKreditList').then(
+        function (response) {
+            return response.json();
+
+        }
+    ).then(function (jsonData) {
+        var content = '';
+        $.each(jsonData, function (i, item) {
+            content += '<option value="' + item.no_kredit + '">' + item.no_kredit + '</option>';
+        });
+        $('#selectKredit').append(content);
+        $('#selectKreditSimulasi').append(content);
+        $('#selectKredit').select2();
+        $('#selectKreditSimulasi').select2();
+        
+        });
+    fetch('/Laporan/getLaporanBulan').then(
+        function (response) {
+            return response.json();
+
+        }
+    ).then(function (jsonData) {
+        var content = '';
+        $.each(jsonData, function (i, item) {
+            var bulan = $.format.date(item.tgl_bayar, "M");
+            var tahun = $.format.date(item.tgl_bayar, "yyyy");
+            var nama = getBulan(bulan);
+            content += '<option value='+bulan+'>'+nama+' '+tahun+'</option>';
+
+        });
+        $('#selectKreditBulan').append(content);
+        $('#selectKreditBulan').select2();
+        
+        });
+    function getBulan(bulan) {
+       
+        var nama;
+        switch(parseInt(bulan)){
+            case 1:
+                nama = "Januari";
+                break;
+            case 2:
+                nama = "Februrari";
+                break;
+            case 3:
+                nama = "Maret";
+                break;
+            case 4:
+                nama = "April";
+                break;
+            case 5:
+                nama = "Mei";
+                break;
+            case 6:
+                nama = "Juni";
+                break;
+            case 7:
+                nama = "July";
+                break;
+            case 8:
+                nama = "Agustus";
+                break;
+            case 9:
+                nama = "September";
+                break;
+            case 10:
+                nama = "Oktober";
+                break;
+            case 11:
+                nama = "November";
+                break;
+            case 12:
+                nama = "Desember";
+        }
+
+        return nama;
+    }
+
+
+    fetch('/Laporan/getLaporanTahun').then(
+        function (response) {
+            return response.json();
+
+        }
+    ).then(function (jsonData) {
+        var content = '';
+        $.each(jsonData, function (i, item) {
+            var tahun = $.format.date(item.tgl_bayar, "yyyy");        
+            content += '<option value=' + tahun + '>' + tahun + '</option>';
+
+        });
+        $('#selectKreditTahun').append(content);
+        $('#selectKreditTahun').select2();
+
+    });
+</script>

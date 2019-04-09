@@ -1,0 +1,192 @@
+﻿@model KreditMotorDomain.Model.Motor.ViewModelMotor
+
+@{
+    ViewData["Title"] = "Motor";
+    var dp = Model.createMotor.harga * Model.site.dp_setting;
+    var bunga = Model.site.bunga_setting * 100;
+}
+
+
+<div class="main-content">
+    <section class="section">
+        <div class="section-header">
+            <h1>Book Motor</h1>
+            <div class="section-header-breadcrumb">
+                <a asp-controller="Motor" asp-action="Index" class="btn btn-primary">Back</a>
+            </div>
+        </div>
+
+        <div class="section-body">
+
+
+            <div class="row">
+                <div class="col-12 col-md-12 col-lg-12">
+                    <div class="card card-primary">
+                        <form method="post" asp-action="Book" enctype="multipart/form-data">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-2"></div>
+                                    <div class="col-4" style="padding-top:20px">
+                                        <input type="hidden" asp-for="createMotor.kd_motor" />
+                                        <div asp-validation-summary="All"></div>
+
+                                        <div class="form-group">
+                                            <label>Merk Motor</label>
+                                            <input type="text" class="form-control" asp-for="createMotor.merk" readonly />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Tipe Motor</label>
+                                            <input type="text" class="form-control" asp-for="createMotor.type" readonly />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Harga Motor</label>
+                                            <input type="text" class="form-control" asp-for="createMotor.harga" readonly />
+                                        </div>
+
+
+
+
+
+                                    </div>
+                                    <div class="col-4" style="padding-top:35px">
+                                        <div class="form-group">
+                                            <label>Picture</label>
+                                            <img src="~/image_motor/@Model.createMotor.picture" class="img-thumbnail" />
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-2"></div>
+                                    <div class="col-2"></div>
+                                    <div class="col-4" style="border-top:1px solid #f9f9f9;padding:20px">
+                                        <div class="form-group">
+                                            <label>Customer</label>
+                                            <select class="form-control" asp-for="pelanggan.kd_pelanggan" required>
+                                                <option value="">--- Pilih Customer ---</option>
+                                                <option value="0">--- Customer Baru ---</option>
+                                            </select>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Tenor</label>
+                                            <select class="form-control" required asp-for="tenor">
+                                                <option value="">--- Pilih Tenor ---</option>
+                                                <option value="11">11 Bulan</option>
+                                                <option value="22">22 Bulan</option>
+                                                <option value="33">33 Bulan</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>DP</label>
+                                            <input type="text" asp-for="dp" class="form-control" readonly value="@dp"/>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Bunga</label>
+                                            <input type="text" asp-for="bunga" class="form-control" readonly/>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Cicilan <span class="badge badge-light">Per Bulan</span></label>
+                                            <input type="text" asp-for="cicilan" class="form-control" readonly/>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="col-4" style="border-top:1px solid #f9f9f9;padding:20px">
+                                        <div id="newCustomer" style="display:none">
+                                            <div class="form-group">
+                                                <label>Nama Customer</label>
+                                                <input type="text" class="form-control" asp-for="pelanggan.nama_pelanggan" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Alamat</label>
+                                                <input type="text" class="form-control" asp-for="pelanggan.alamat" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Pekerjaan</label>
+                                                <input type="text" class="form-control" asp-for="pelanggan.pekerjaan" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>No KTP</label>
+                                                <input type="text" class="form-control" asp-for="pelanggan.no_ktp" />
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            <div class="card-footer text-right" style="border-top:1px solid #f9f9f9">
+
+                                <button type="submit" class="btn btn-primary">Lanjut</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>
+<script>
+      fetch('/Customer/getCustomer').then(
+        function (response) {
+            return response.json();
+
+        }
+    ).then(function (jsonData) {
+      
+        //handle json data processing here
+        
+        var content = '';
+        $.each(jsonData.result, function (i, item) {
+            content += '<option value="'+item.kd_pelanggan+'">'+item.nama_pelanggan+'</option>';
+           
+        });
+        $('#pelanggan_kd_pelanggan').append(content);
+        $('#pelanggan_kd_pelanggan').select2();
+      
+        });
+
+    $('#pelanggan_kd_pelanggan').change(function () {
+        var id = $(this).val();
+        if (id == "0") {
+            $('#newCustomer').show();
+            $('#pelanggan_nama_pelanggan').attr('required', 'required');
+            $('#pelanggan_alamat').attr('required', 'required');
+            $('#pelanggan_pekerjaan').attr('required', 'required');
+            $('#pelanggan_no_ktp').attr('required', 'required');
+        } else {
+            $('#newCustomer').hide();
+            $('#pelanggan_nama_pelanggan').removeAttr('required', 'required');
+            $('#pelanggan_alamat').removeAttr('required', 'required');
+            $('#pelanggan_pekerjaan').removeAttr('required', 'required');
+            $('#pelanggan_no_ktp').removeAttr('required', 'required');
+        }
+    })
+
+    $('#tenor').change(function () {
+        var tenor = $(this).val();
+        var dp = @dp;
+        var surat = @Model.site.surat_surat_setting;
+        var otr = @Model.createMotor.harga;
+        var bunga =@bunga;
+        var conveBunga = bunga / 100;
+        if (tenor != "") {
+            var pokok = dp + otr + surat;
+            var hasil = pokok / tenor;
+            hasil = Math.floor(hasil).toFixed();
+            var bunga = conveBunga * hasil;
+            var cicilan = parseInt(hasil) + parseInt(bunga);
+            $('#bunga').val(Math.round(bunga));
+            $('#cicilan').val(Math.round(cicilan));
+      
+        }
+    });
+</script>

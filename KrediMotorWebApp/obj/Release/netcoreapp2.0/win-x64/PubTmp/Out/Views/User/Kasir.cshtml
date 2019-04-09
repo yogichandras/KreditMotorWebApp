@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewData["Title"] = "Kasir";
+
+}
+
+@Html.Partial("_modal");
+
+<div class="main-content">
+    <section class="section">
+        <div class="section-header">
+            <h1>User Kasir</h1>
+            <div class="section-header-breadcrumb">
+                <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#myModal">Create User</button>
+            </div>
+        </div>
+
+        <div class="section-body">
+
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="table-1">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-left">
+                                                #
+                                            </th>
+
+                                            <th>Username</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="content"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>
+<script src="~/js/site.js"></script>
+<script>
+    getKasir();
+
+</script>

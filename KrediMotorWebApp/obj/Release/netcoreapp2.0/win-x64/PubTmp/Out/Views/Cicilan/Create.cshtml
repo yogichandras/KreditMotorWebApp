@@ -1,0 +1,149 @@
+﻿@model KreditMotorDomain.Model.Motor.ViewModelMotor
+
+@{
+    ViewData["Title"] = "Motor";
+
+}
+
+
+<div class="main-content">
+    <section class="section">
+        <div class="section-header">
+            <h1>Create Cicilan</h1>
+            <div class="section-header-breadcrumb">
+                <a asp-controller="Cicilan" asp-action="Index" class="btn btn-primary">Back</a>
+            </div>
+        </div>
+
+        <div class="section-body">
+
+
+            <div class="row">
+                <div class="col-12 col-md-12 col-lg-12">
+                    <div class="card card-primary">
+                        <form method="post" asp-action="Create" enctype="multipart/form-data">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-2"></div>
+                                    <div class="col-4" style="padding-top:20px">
+                                        <div class="form-group">
+                                            <label>Select No Kredit</label>
+                                            <select class="form-control" name="no_kredit" id="no_kredit" required>
+                                                <option value="">--- Select No Kredit ---</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-4" style="padding-top:20px" id="contentcicilan">
+                                        <div class="form-group">
+                                            <label>Cicilan-ke</label>
+                                            <input type="text" id="bulan_bayar" name="bulan_bayar" readonly class="form-control" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Jumlah Cicilan</label>
+                                            <input type="text" id="cicilan" readonly class="form-control" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Denda</label>
+                                            <input type="text" id="denda" name="denda" readonly class="form-control" />
+                                            <input type="hidden" name="bulan_denda" id="bulan_denda" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Total</label>
+                                            <input type="text" id="total" readonly class="form-control" name="nominal_bayar" />
+                                        </div>
+                                    </div>
+
+
+
+
+                                </div>
+                            </div>
+                            <div class="card-footer text-right" style="border-top:1px solid #f9f9f9">
+
+                                <button type="submit" class="btn btn-primary">Create</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>
+<script src="~/lib/jquery-date-format/jquery-dateformat.js"></script>
+<script>
+    $('#contentcicilan').hide();
+    fetch('/Cicilan/getKredit').then(
+        function (response) {
+            return response.json();
+
+        }
+    ).then(function (jsonData) {
+        //handle json data processing here
+        var content = '';
+        $.each(jsonData, function (i, item) {
+            content += '<option value="' + item.no_kredit + '">' + item.no_kredit + '</option>';
+        });
+        $('#no_kredit').append(content);
+
+    });
+
+    $('#no_kredit').change(function () {
+        var id = $(this).val();
+        if (id != "") {
+            getCicilanKe(id);
+            getDataKredit(id);
+            $('#contentcicilan').show();
+        } else {
+            $('#contentcicilan').hide();
+        }
+    });
+
+    function getCicilanKe(id) {
+        fetch('/Cicilan/getCicilanKe?id=' + id + '').then(
+            function (response) {
+                return response.json();
+
+            }
+        ).then(function (jsonData) {
+            //handle json data processing here
+            var jumlah = parseInt(jsonData) + 1;
+            $('#bulan_bayar').val(jumlah);
+
+        });
+    }
+    function getDataKredit(id) {
+        fetch('/Cicilan/getDataKredit?id=' + id + '').then(
+            function (response) {
+                return response.json();
+            }
+        ).then(function (jsonData) {
+            //handle json data processing here
+            $('#cicilan').val(jsonData.cicilan);
+            var month = jsonData.bulan + 1;
+            var dateNow = new Date();
+            var datePertama = dateNow.getDate();
+            var bulanPertama = dateNow.getMonth();
+            var tahunPertama = dateNow.getFullYear();
+           
+            var dateFirst = new Date(""+bulanPertama+"/" + datePertama+"/"+tahunPertama+"");
+            var dateSecond = new Date(""+month+"/"+jsonData.tgl+"/"+jsonData.tahun+"");
+        
+
+            // time difference
+            var timeDiff = dateFirst.getTime() - dateSecond.getTime();
+
+            // days difference
+            var diffDays = Math.round(timeDiff / (1000 * 3600 * 24));
+            var hari_denda = 0;
+            if (diffDays > 0) {
+                hari_denda += diffDays;
+            }
+            var denda = 0.1 * hari_denda * jsonData.cicilan;
+            var total = jsonData.cicilan + denda;
+            $('#denda').val(Math.round(denda));
+            $('#total').val(Math.round(total));
+            $('#bulan_denda').val(month);
+        });
+    }
+</script>

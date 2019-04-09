@@ -1,0 +1,9 @@
+E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorDomain\bin\Release\netcoreapp2.0\KreditMotorDomain.deps.json
+E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorDomain\bin\Release\netcoreapp2.0\KreditMotorDomain.dll
+E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorDomain\bin\Release\netcoreapp2.0\KreditMotorDomain.pdb
+E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorDomain\obj\Release\netcoreapp2.0\KreditMotorDomain.csprojAssemblyReference.cache
+E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorDomain\obj\Release\netcoreapp2.0\KreditMotorDomain.csproj.CoreCompileInputs.cache
+E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorDomain\obj\Release\netcoreapp2.0\KreditMotorDomain.AssemblyInfoInputs.cache
+E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorDomain\obj\Release\netcoreapp2.0\KreditMotorDomain.AssemblyInfo.cs
+E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorDomain\obj\Release\netcoreapp2.0\KreditMotorDomain.dll
+E:\yogi\Ujikom\KrediMotorWebApp\KreditMotorDomain\obj\Release\netcoreapp2.0\KreditMotorDomain.pdb

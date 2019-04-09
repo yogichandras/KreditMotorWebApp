@@ -1,0 +1,85 @@
+﻿@model KreditMotorDomain.Model.ViewModel.DashboardModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+
+}
+
+
+<div class="main-content">
+    <section class="section">
+   
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                            <div class="card-header">
+                                <h4>Data Booking Motor</h4>
+                                <div class="card-header-action">
+                                    <a asp-controller="Transaksi" asp-action="Book" class="btn btn-danger">View More <i class="fas fa-chevron-right"></i></a>
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive table-invoice">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-left">
+                                                    NO KREDIT
+                                                </th>
+
+                                                @*<th>Motor</th>
+                                                <th>Pelanggan</th>
+                                                <th>Tenor</th>*@
+                                                <th>Status Verif</th>
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody id="content">
+                                            @{
+                                                foreach (var item in Model.book.Take(5))
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @item.no_kredit
+                                                        </td>
+                                                        @*<td>
+                                                            @item.modelMotor.merk
+                                                        </td>
+                                                        <td>
+                                                            @item.modelPelanggan.nama_pelanggan
+                                                        </td>
+                                                        <td>
+                                                            @item.tenor
+                                                        </td>*@
+                                                        <td>
+                                                            @{
+                                                                if (item.status_verif == 1)
+                                                                {
+                                                                    <div class="badge badge-success">Verifikasi Diterima</div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div class="badge badge-danger">Verifikasi Ditolak</div>
+                                                                }
+                                                            }
+                                                        </td>
+
+                                                    </tr>
+
+
+
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+               
+            </div>
+         
+        </div>
+    </section>
+</div>
+

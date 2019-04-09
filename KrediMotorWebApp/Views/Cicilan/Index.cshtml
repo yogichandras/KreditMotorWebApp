@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewData["Title"] = "Pembayaran Cicilan";
+
+}
+
+<div class="main-content">
+    <section class="section">
+        <div class="section-header">
+            <h1>Pembayaran Cicilan</h1>
+            <div class="section-header-breadcrumb">
+                <a class="btn btn-primary" asp-controller="Cicilan" asp-action="Create">Create Pembayaran</a>
+            </div>
+        </div>
+
+        <div class="section-body">
+
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="table-1">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-left">
+                                                No Pembayaran
+                                            </th>
+
+                                            <th>Tanggal Pembayaran</th>
+                                            <th>Bulan Bayar</th>
+                                            <th>Denda</th>
+                                            <th>Nominal</th>
+                                            <th>Sisa Cicilan</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="content"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>
+<script src="~/lib/jquery-date-format/jquery-dateformat.js"></script>
+<script src="~/js/datatable-cicilan.js"></script>
+<script>
+    TableData.init();
+    $('#selectKredit').change(function () {
+        var id = $(this).val();
+        if (id != 0) {
+            getPembayaran(id);
+        }
+    });
+    function getPembayaran(id) {
+        fetch('/Cicilan/getPembayaran?id=' + id + '').then(
+            function (response) {
+                return response.json();
+            }
+        ).then(function (jsonData) {
+            //handle json data processing here
+            var content = '';
+            $.each(jsonData, function (i, item) {
+                var btn_status = '';
+                if (item.status_bayar == 1) {
+                    btn_status += '<span class="badge badge-success">Lunas</span>';
+                } else {
+                    btn_status += '<span class="badge badge-danger">Belum Lunas</span>';
+                }
+                content += '<tr><td>' + item.no_bayar + '</td><td>' + $.format.date(item.tgl_bayar, "dd/MM/yyyy") + '</td><td>' + item.bulan_bayar + '</td><td>Rp.' + item.denda + '</td><td>Rp.' + item.nominal_bayar +'</td><td>'+item.sisa_cicilan+'</td><td>'+btn_status+'</td><td><a href="/Cicilan/Print?id='+item.no_bayar+'" target="_blank" class="btn btn-warning" >Print</td></tr>'
+            });
+
+            $('#content').html(content);
+        });
+    }
+    fetch('/Cicilan/getKreditList').then(
+        function (response) {
+            return response.json();
+
+        }
+    ).then(function (jsonData) {
+        var content = '';
+        $.each(jsonData, function (i, item) {
+            content += '<option value="' + item.no_kredit + '">' + item.no_kredit + '</option>';
+        });
+        $('#selectKredit').append(content);
+    });
+</script>

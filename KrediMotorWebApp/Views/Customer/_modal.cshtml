@@ -1,0 +1,121 @@
+﻿@model KreditMotorDomain.Model.Pelanggan.ModelPelanggan
+
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create Pelanggan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="userForm" method="post">
+                <div class="modal-body">
+
+
+                    <div class="form-group">
+                        <label>No KTP</label>
+                        <input type="text" class="form-control" asp-for="no_ktp" />
+                    </div>
+                    <div class="form-group">
+                        <label>Nama</label>
+                        <input type="text" class="form-control" asp-for="nama_pelanggan" />
+                    </div>
+                    <div class="form-group">
+                        <label>Alamat</label>
+                        <input type="text" class="form-control" asp-for="alamat" />
+                    </div>
+                    <div class="form-group">
+                        <label>Pekerjaan</label>
+                        <input type="text" class="form-control" asp-for="pekerjaan" />
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btn-kirim-customer" data-form="userForm" data-url="/Customer/createDataCustomer">
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="deleteModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="delId" />
+                <p>Are you sure to delete this account?</p>
+            </div>
+            <div class="modal-footer bg-whitesmoke br">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="btn-delete-pelanggan">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="editModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="editUserForm" method="post">
+                <div class="modal-body">
+                    <input type="hidden" id="edit_kd_pelanggan" name="edit_kd_pelanggan" />
+                    <div class="form-group">
+                        <label>Nama Customer</label>
+                        <input type="text" class="form-control" id="edit_nama_pelanggan" name="edit_nama_pelanggan" />
+                    </div>
+                    <div class="form-group">
+                        <label>Alamat</label>
+                        <input type="text" class="form-control" id="edit_alamat" name="edit_alamat" />
+                    </div>
+                    <div class="form-group">
+                        <label>Pekerjaan</label>
+                        <input type="text" class="form-control" id="edit_pekerjaan" name="edit_pekerjaan" />
+                    </div>
+                    <div class="form-group">
+                        <label>No KTP</label>
+                        <input type="text" class="form-control" id="edit_no_ktp" name="edit_no_ktp" />
+                    </div>
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btn-kirim-edit-pelanggan" data-form="editUserForm" data-url="/Customer/editDataCustomer">
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+<script>
+    $('#no_ktp').inputFilter(function (value) {
+        return /^\d*$/.test(value);
+    });
+    
+    $('#edit_no_ktp').inputFilter(function (value) {
+        return /^\d*$/.test(value);
+    });
+</script>

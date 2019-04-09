@@ -1,0 +1,140 @@
+﻿@model KreditMotorDomain.Model.User.ManageViewModels.CreateUserModel
+
+@{ 
+    string url = "";
+    if(ViewBag.nav == "admin")
+    {
+        url = "/User/createAdmin";
+    }else if(ViewBag.nav == "kasir")
+    {
+        url = "/User/createKasir";
+    }
+    else if(ViewBag.nav == "cso")
+    {
+        url = "/User/createCso";
+    }
+    else if(ViewBag.nav == "sales")
+    {
+        url = "/User/createSales";
+    }
+}
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="userForm" method="post">
+                <div class="modal-body">
+
+                    <div class="alert alert-danger alert-dismissible show fade" id="create-gagal">
+                        <div class="alert-body">
+                            <button class="close" data-dismiss="alert">
+                                <span>×</span>
+                            </button>
+                          Proses Gagal!
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Nama</label>
+                        <input type="text" class="form-control" asp-for="Nama" />
+                    </div>
+                    <div class="form-group">
+                        <label>Bagian</label>
+                        <input type="text" class="form-control" asp-for="Bagian" />
+                    </div>
+                    <div class="form-group">
+                        <label>Keterangan</label>
+                        <input type="text" class="form-control" asp-for="Keterangan" />
+                    </div>
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" class="form-control" asp-for="Username" />
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" asp-for="Password" />
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btn-kirim" data-form="userForm" data-url="@url">
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="deleteModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="delId" />
+                <p>Are you sure to delete this account?</p>
+            </div>
+            <div class="modal-footer bg-whitesmoke br">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="btn-delete">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="editModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="editUserForm" method="post">
+                <div class="modal-body">
+                    <input type="hidden" asp-for="edituser.Id" />
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" class="form-control" asp-for="edituser.Username" readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label>Nama</label>
+                        <input type="text" class="form-control" asp-for="edituser.Nama" />
+                    </div>
+                    <div class="form-group">
+                        <label>Bagian</label>
+                        <input type="text" class="form-control" asp-for="edituser.Bagian" />
+                    </div>
+                    <div class="form-group">
+                        <label>Keterangan</label>
+                        <input type="text" class="form-control" asp-for="edituser.Keterangan" />
+                    </div>
+
+                    
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btn-kirim-edit" data-form="editUserForm" data-url="/User/editDataUser">
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

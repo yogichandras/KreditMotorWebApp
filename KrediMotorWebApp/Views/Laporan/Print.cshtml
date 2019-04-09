@@ -1,0 +1,176 @@
+﻿@model KreditMotorDomain.Model.Pembayaran.Cicilan.PrintLaporan
+@using System;
+@using System.Globalization;
+
+@{
+    Layout = null;
+
+    var tenor = Model.laporan.First().modelTransaksiKredit.tenor;
+    var jumlah = Model.laporan.Count;
+    var sisa = tenor - jumlah;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Print</title>
+    <link rel="stylesheet" href="~/assets/modules/bootstrap/css/bootstrap.min.css">
+    <style>
+        @@media print {
+            @@page {
+                margin: 0;
+            }
+
+            body {
+                margin: 1.6cm;
+            }
+
+            .printpage {
+                display: inline
+            }
+            .btn-back{
+                display:none;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+    <h2 style="text-align:center">Laporan Cicilan Pelanggan</h2>
+
+    <div class="container">
+        @*<p>No Kredit</p>
+            <p>Nama Pelanggan</p>
+            <p>Motor</p>
+            <p>Tenor</p>*@
+        <table>
+            <thead>
+                <tr>
+                    <th style="width:200px">
+                        No Kredit
+                    </th>
+                    <th>
+                        :
+                    </th>
+                    <th>
+                        @Model.laporan.First().no_kredit
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        Nama Pelanggan
+                    </th>
+                    <th>
+                        :
+                    </th>
+                    <th>
+                        @Model.laporan.First().modelTransaksiKredit.modelPelanggan.nama_pelanggan
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        Motor
+                    </th>
+                    <th>
+                        :
+                    </th>
+                    <th>
+                        @Model.laporan.First().modelTransaksiKredit.modelMotor.merk
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        Tenor
+                    </th>
+                    <th>
+                        :
+                    </th>
+                    <th>
+                        @Model.laporan.First().modelTransaksiKredit.tenor Bulan
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        Tanggal Jatuh Tempo
+                    </th>
+                    <th>
+                        :
+                    </th>
+                    <th>
+                       Setiap Tanggal @Model.laporan.First().modelTransaksiKredit.tgl_verif.GetValueOrDefault().ToString("dd")
+                    </th>
+                </tr>
+            </thead>
+        </table>
+        <p style="margin-top:20px">Rincian Detail Cicilan :</p>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Bulan Ke</th>
+                    <th>Tanggal Bayar</th>
+                    <th>Nominal Cicilan</th>
+                    <th>Denda</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var item in Model.laporan)
+                    {
+                        <tr>
+                            <td>
+                                @item.bulan_bayar
+                            </td>
+                            <td>
+                                @item.tgl_bayar.ToString("dd/MM/yyyy")
+                            </td>
+                            <td>
+                                @item.modelTransaksiKredit.cicilan.ToString("C2", CultureInfo.CurrentCulture)
+                            </td>
+                            <td>
+                                @item.denda.ToString("C2", CultureInfo.CurrentCulture)
+                            </td>
+                            <td>
+                                @item.nominal_bayar.ToString("C2", CultureInfo.CurrentCulture)
+                            </td>
+                            <td>
+                                Lunas
+                            </td>
+                        </tr>
+                                }
+
+                                if (sisa > 0)
+                                {
+                                    var x = jumlah;
+                                    for (int i = jumlah; i < tenor; i++)
+                                    {
+                            x++;
+
+                            <tr>
+                                <td>
+                                    @x
+                                </td>
+                                <td colspan="5" style="text-align:center">
+                                    Belum Lunas
+                                </td>
+                            </tr>
+
+                        }
+                    }
+                }
+
+            </tbody>
+           
+        </table>
+
+        <a asp-controller="Laporan" asp-action="Index" class="btn btn-primary btn-back">Back</a>
+    </div>
+    <script>
+        window.print();
+    </script>
+</body>
+</html>

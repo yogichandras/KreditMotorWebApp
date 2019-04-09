@@ -1,0 +1,297 @@
+﻿@model KreditMotorDomain.Model.Transaksi.ModelTransaksiKredit
+@using System;
+@using System.Globalization;
+
+@{
+    Layout = null;
+    string GetDay(int id)
+    {
+        switch (id)
+        {
+            case 1:
+                return "Senin";
+            case 2:
+                return "Selasa";
+            case 3:
+                return "Rabu";
+            case 4:
+                return "Kamis";
+            case 5:
+                return "Jumat";
+            case 6:
+                return "Sabtu";
+            case 7:
+                return "Minggu";
+        }
+        return "Not Day";
+    }
+    string GetMonth(int id)
+    {
+        switch (id)
+        {
+            case 1:
+                return "Januari";
+            case 2:
+                return "Februari";
+            case 3:
+                return "Maret";
+            case 4:
+                return "April";
+            case 5:
+                return "Mei";
+            case 6:
+                return "Juni";
+            case 7:
+                return "Juli";
+            case 8:
+                return "Agustus";
+                       case 9:
+                return "September";
+            case 10:
+                return "Oktober";
+            case 11:
+                return "November";
+            case 12:
+                return "Desember";
+        }
+        return "Not Day";
+    }
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+  
+        <title> Surat Perjanjian </title>
+        <style>
+            @@media print {
+                @@page {
+                    margin: 0;
+                }
+
+                body {
+                    margin: 1.6cm;
+                }
+                .printpage{
+                    display:inline
+                }
+            }
+            .grid-container {
+                display: grid;
+                grid-column-gap: 50px;
+                grid-template-columns: auto auto auto;
+                padding: 10px;
+            }
+
+            .grid-item {
+                background-color: rgba(255, 255, 255, 0.8);
+                padding: 20px;
+            }
+            .content{
+                padding-left:40px;
+                padding-right:40px;
+            }
+        </style>
+
+
+
+    </head>
+
+<body>
+
+    <div class="printpage">
+
+        <div class="grid-container">
+            <div class="grid-item">
+                @*<img src="https://preview.ibb.co/c9x6Oo/logo_tpp.jpg" width="280px">*@
+            </div>
+            <div class="grid-item"></div>
+            <div class="grid-item" style="text-align:right">
+                <small>
+                    PT. GEOMO <br>
+                    Gestire Credio Moto <br>
+                    Jalan Golf Raya <br>
+                    yogi@sahaware.co.id <br>
+                    0895389566001
+                </small>
+            </div>
+        </div>
+
+        <div class="content">
+            <font face="Arial" size="4">
+                <p align="center"> <u> <b> SURAT PERJANJIAN </b></u>
+            </font><br>
+            <font face="Arial" size="4">
+                No Kredit: @Model.no_kredit
+                </p>
+            </font>
+            <p><b>Kami yang bertandatangan dibawah ini :</b></p>
+            <table>
+                <tr>
+                    <td width="250px">Nama</td>
+                    <td width="30px">:</td>
+                    <td width="200px">@Model.users.petugas.nama</td>
+                </tr>
+                <tr>
+                    <td>Bagian</td>
+                    <td>:</td>
+                    <td>@Model.users.petugas.bagian</td>
+                </tr>
+              
+
+            </table>
+            <p>Selanjutnya disebut pihak Kesatu ( I )</p>
+            <p><b>Saya yang bertandatangan dibawah ini :</b></p>
+            <table>
+                <tr>
+                    <td width="250px">Nama</td>
+                    <td width="30px">:</td>
+                    <td width="200px">@Model.modelPelanggan.nama_pelanggan</td>
+                </tr>
+                <tr>
+                    <td>No KTP</td>
+                    <td>:</td>
+                    <td>@Model.modelPelanggan.no_ktp</td>
+                </tr>
+                <tr>
+                    <td>Alamat</td>
+                    <td>:</td>
+                    <td>@Model.modelPelanggan.alamat</td>
+                </tr>
+                <tr>
+                    <td>Pekerjaan</td>
+                    <td>:</td>
+                    <td>@Model.modelPelanggan.pekerjaan</td>
+                </tr>
+            
+
+            </table>
+            <p>Selaku pembeli yang selanjutnya, disebut Pihak Kedua ( II ). Pada hari ini @GetDay(Model.tgl_verif.GetValueOrDefault().Day) tanggal @Model.tgl_verif.GetValueOrDefault().ToString("dd") @GetMonth(Model.tgl_verif.GetValueOrDefault().Month) @Model.tgl_verif.GetValueOrDefault().Year , Telah sepakat untuk mengadakan perjanjian jual beli kredit sepeda motor dengan ketentuan-ketentuan sebagai berikut.</p>
+            <div class="pasal" style="text-align:center">
+                <p>
+                    <b>Pasal 1</b><br />
+                    Pihak pertama menjual kepada pihak kedua 1 unit sepeda motor dengan harga
+                    @Model.modelMotor.harga.ToString("C2", CultureInfo.CurrentCulture), yang bermerek @Model.modelMotor.merk type @Model.modelMotor.type.
+
+                </p>
+                <p>
+                    <b>Pasal 2</b><br />
+                    Pihak kedua membayar uang muka sebesar @Model.dp.ToString("C2", CultureInfo.CurrentCulture) dari harga tersebut diatas saat penandatanganan surat jual beli kredit sepeda motor, sedangkan sisanya dibayar perbulan sebesar @Model.cicilan.ToString("C2", CultureInfo.CurrentCulture) selama @Model.tenor bulan dengan cara kredit melalui pembayaran tunai. Sudah ditambah dengan bunga.
+
+                </p>
+
+                <p>
+                    <b>Pasal 3</b><br />
+                    Pihak kedua berhak mengambil sepeda motor merek @Model.modelMotor.merk  sejak penanda tanganan surat perjanjian jual beli kredit dan uang muka yang telah dibayar sebagai barang bukti.
+
+                </p>
+
+                <p>
+                    <b>Pasal 4</b><br />
+                    Surat perjanjian ini berlaku sehingga kuitansi/bukti pembayaran uang muka @Model.dp.ToString("C2", CultureInfo.CurrentCulture)
+                </p>
+
+                <p>
+                    <b>Pasal 5</b><br />
+                    Waktu pembayaran angsuran perbulan atau jatuh tempo pembayaran angsuran perbulan setiap pertanggal @Model.tgl_verif.GetValueOrDefault().ToString("dd")
+                </p>
+                <p>
+                    <b>Pasal 6</b><br />
+                    Apabila dalam 2(dua) bulan berturut-turut tidak membayar angsuran maka pihak pertama menarik sepeda motor tersebut dan sekaligus menjadi hak milik pihak pertama sampai tanggungan pihak kedua dilunasi.
+                </p>
+                <br /><br /><br /><br /><br /><br />
+                <p>
+                    <b>Pasal 7</b><br />
+                    Pihak kedua menanggung seluruh pembayaran pajak kendaraan bermotor @Model.modelMotor.merk tersebut diatas dan pihak kedua bertanggung jawab penuh atas kendaraan tersebut (hilang, kerusakan dll).
+                </p>
+                <p>
+                    <b>Pasal 8</b><br />
+                    Bilamana suatu ketentuan dari Perjanjian ataupun suatu bagian daripadanya berdasarkan alasan hukum diperlakukan sebagai tidak sah ataupun tidak dapat diterapkan, bagian-bagian lain dari Perjanjian akan tetap berlaku dan dapat diterapkan.
+                </p>
+                <p>
+                    <b>Pasal 9</b><br />
+                    Jika dalam perjanjian ini timbul suatu persoalan maka akan diselesaikan secara musyawarah/kekeluargaan, bila musyawarah tersebut mengalami kegagalan maka akan diselesaikan secara hukum.
+                </p>
+
+
+
+            </div>
+            <p>
+                Demikian surat perjanjian jual beli kredit ini dibuat atas kesepakatan Pihak Pertama dan Pihak Kedua, tanpa adanya unsur paksaan didalamnya dan akan dipatuhi bersama. Perjanjian ini dibuat rangkap 2 (dua), dua-duanya bermeterai Rp. 6000 sesuai dengan ketentuan yang berlaku dan ditandatangani oleh kedua belah pihak, dan saksi saksi,masing-masing mempunyai kekuatan hukum yang sama.
+            </p>
+        </div>
+
+
+        @*<div id="tanggal" style="text-align:right">
+            <p>Bandung, ....... 2019</p>
+
+        </div>*@
+        <p style="text-align: right;
+    position: absolute;
+    right: 140px;">Bandung, @Model.tgl_verif.GetValueOrDefault().ToString("dd") @GetMonth(Model.tgl_verif.GetValueOrDefault().Month) @Model.tgl_verif.GetValueOrDefault().Year</p>
+        <div class="grid-container" style='text-align: center;margin-top:50px'>
+
+            <div class="grid-item">
+                <strong>Disetujui Oleh :</strong>
+                <br><br><br><br><br><br>
+                (.......................)
+                <br>
+                <b>@Model.users.petugas.nama</b>
+            </div>
+            <div class="grid-item">
+
+            </div>
+            <div class="grid-item">
+                <strong>Mengetahui</strong>
+                <div style="position:absolute;right:200px">
+                    <table style="border: 1px black dotted;
+    width: 120px;
+    height: 70px;
+    margin-top: 10px;">
+
+                        <tr style="width:35%">
+                            <th style="width:35%">
+                                <p style="font-size: 12px;
+    font-weight: 100;">materai 6.000</p>
+                            </th>
+
+                        </tr>
+                    </table>
+                </div>
+                <div style="margin-top:90px">
+                    (.......................)
+                    <br>
+                    <b>@Model.modelPelanggan.nama_pelanggan</b>
+                </div>
+            </div>
+        </div>
+        <div class="grid-container" style='text-align: center;margin-top:50px'>
+
+            <div class="grid-item">
+                <b>Saksi 1</b>
+                <p>Nama&nbsp;&nbsp;:</p>
+                <p>Alamat&nbsp;:</p>
+            </div>
+            <div class="grid-item">
+
+            </div>
+            <div class="grid-item">
+                <b>Saksi 1</b>
+                <p>Nama&nbsp;&nbsp;:</p>
+                <p>Alamat&nbsp;:</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.print();
+    </script>
+
+</body>
+
+</html>
+
+
+

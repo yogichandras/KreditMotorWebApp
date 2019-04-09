@@ -1,0 +1,45 @@
+﻿
+<div id="editModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Setting</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="editUserForm" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="id_setting" id="id_setting" />
+                    <div class="form-group">
+                        <label>Setting Harga DP <span class="badge badge-light">%</span></label>
+                        <input type="text" class="form-control" name="dp_setting" id="dp_setting" />
+                    </div>
+                    <div class="form-group">
+                        <label>Setting Bunga <span class="badge badge-light">%</span></label>
+                        <input type="text" class="form-control" name="bunga_setting" id="bunga_setting" />
+                    </div>
+                    <div class="form-group">
+                        <label>Setting Denda <span class="badge badge-light">%</span></label>
+                        <input type="text" class="form-control" name="denda_setting" id="denda_setting" />
+                    </div>
+                    <div class="form-group">
+                        <label>Setting Biaya Administrasi</label>
+                        <input type="text" class="form-control" name="surat_surat_setting" id="surat_surat_setting" />
+                    </div>
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btn-kirim-edit" data-form="editUserForm" data-url="/Site/editDataSite">
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
