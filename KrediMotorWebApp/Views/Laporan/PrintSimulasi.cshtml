@@ -10,6 +10,7 @@
     var sisa = tenor - jumlah;
     var lunas = 0;
     var total = 0;
+    var jmlCicilan = Model.laporan.First().modelTransaksiKredit.cicilan * tenor;
 }
 
 <!DOCTYPE html>
@@ -105,6 +106,19 @@
                     <th>
                         Setiap Tanggal @Model.laporan.First().modelTransaksiKredit.tgl_verif.GetValueOrDefault().ToString("dd")
                     </th>
+                    
+                </tr>
+                <tr>
+                    <th>
+                        Total Keseluruhan
+                    </th>
+                    <th>
+                        :
+                    </th>
+                    <th>
+                        @jmlCicilan.ToString("C2", CultureInfo.CurrentCulture)
+
+                    </th>
                 </tr>
             </thead>
         </table>
@@ -112,66 +126,37 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Bulan Ke</th>
+                    <th>Cicilan</th>
+                    <th>Jumlah Cicilan</th>
                   
-                    <th>Total Hutang</th>
+                    <th>Sisa Hutang</th>
                    
                 </tr>
             </thead>
             <tbody>
                 @{
-                    foreach (var item in Model.laporan)
+
+                    var x = 0;
+                    for (int i = 0; i < tenor; i++)
                     {
-                        <tr>
-                            <td>
-                                @item.bulan_bayar
-                            </td>
-                            <td>
-                               @lunas.ToString("C2",CultureInfo.CurrentCulture)
-                            </td>
-                            @*<td>
-                                @item.modelTransaksiKredit.cicilan.ToString("C2", CultureInfo.CurrentCulture)
-                            </td>
-                            <td>
-                                @item.denda.ToString("C2", CultureInfo.CurrentCulture)
-                            </td>
-                            <td>
-                                @item.nominal_bayar.ToString("C2", CultureInfo.CurrentCulture)
-                            </td>
-                            <td>
-                                Lunas
-                            </td>*@
-                        </tr>
-                    }
+                        x++;
+                        jmlCicilan = jmlCicilan - Model.laporan.First().modelTransaksiKredit.cicilan;
 
-                    if (sisa > 0)
-                    {
-                        var x = jumlah;
-                        for (int i = jumlah; i < tenor; i++)
-                        {
-                            x++;
-
-                            <tr>
-                                <td>
-                                    @x
-                                </td>
-                                <td style="text-align:left">
-                                   @Model.laporan.First().modelTransaksiKredit.cicilan.ToString("C2",CultureInfo.CurrentCulture)
-                                </td>
-                            </tr>
-
-                            total += Model.laporan.First().modelTransaksiKredit.cicilan;
-                        }
-                    }
-                }
                 <tr>
                     <td>
-                        Total Keseluruhan
+                       Cicilan Ke @x
                     </td>
                     <td>
-                        @total.ToString("C2", CultureInfo.CurrentCulture)
+                        @Model.laporan.First().modelTransaksiKredit.cicilan.ToString("C2",CultureInfo.CurrentCulture)
+                    </td>
+                    <td style="text-align:left">
+                        @jmlCicilan.ToString("C2", CultureInfo.CurrentCulture)
                     </td>
                 </tr>
+
+                        }
+                    }
+                
 
             </tbody>
 
